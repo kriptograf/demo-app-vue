@@ -8,14 +8,18 @@
                                 v-for="(item,i) in items"
                                 :key="i"
                                 :src="item.src"
-                        ></v-carousel-item>
+                        >
+                            <div class="carousel-link">
+                                <v-btn :to="'/ads/'+item.id">{{ item.title }}</v-btn>
+                            </div>
+                        </v-carousel-item>
                     </v-carousel>
                 </v-flex>
             </v-layout>
         </v-container>
-        <v-container grid-list-lg>
-            <v-layout row wrap>
-                <v-flex xs12 sm6 md4 v-for="item of items" :key="item.id">
+        <v-container grid-list-lg><!-- grid-list-lg задает сетку -->
+            <v-layout row wrap><!-- для адаптивности нужен параметр wrap -->
+                <v-flex xs12 sm6 md4 v-for="item of items" :key="item.id"><!-- xs12 sm6 md4 точки останова -->
                     <v-card>
                         <v-img
                                 :src="item.src"
@@ -30,8 +34,9 @@
                         </v-card-title>
 
                         <v-card-actions>
-                            <v-btn flat color="orange">Share</v-btn>
-                            <v-btn flat color="orange">Explore</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn flat :to="'/ads/'+item.id">Open</v-btn>
+                            <v-btn raised class="primary">Buy</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
@@ -51,7 +56,7 @@
                         title: 'Lorem ipsum dolor sit amet',
                         description: 'Lorem ipsum dolor sit amet',
                         promo: false,
-                        src: require('./../assets/images/card-thumb-1.jpg'),
+                        src: require('./../assets/images/card-thumb-1.jpg'),//для подключения локальных изображений использовать require
                         id: '1'
                     },
                     {
@@ -59,14 +64,14 @@
                         description: 'dfgsdfg',
                         promo: false,
                         src: require('./../assets/images/card-thumb-2.jpg'),
-                        id: '1'
+                        id: '2'
                     },
                     {
                         title: 'sdasd',
                         description: 'xzxczxc',
                         promo: false,
                         src: require('./../assets/images/card-thumb-3.jpg'),
-                        id: '1'
+                        id: '3'
                     }
                 ]
             }
@@ -75,5 +80,15 @@
 </script>
 
 <style scoped>
-
+.carousel-link{
+    position: absolute;
+    top: 0;
+    background: rgba(0,0,0, .5);
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+}
+.carousel-link > a{
+    color: #ffffff;
+}
 </style>
