@@ -65,6 +65,7 @@
                         promo: this.promo
                     };
 
+                    // eslint-disable-next-line no-console
                     console.log(ad);
                 }
             }
