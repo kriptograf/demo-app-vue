@@ -1,8 +1,26 @@
 <template>
     <v-container>
         <v-layout row>
-            <v-flex xs12>
-                <h1>List ads</h1>
+            <v-flex xs12 sm6 offset-sm3>
+                <h1 class="text--secondary mb-3">List ads</h1>
+
+                <v-card class="elevation-10 mb-3" v-for="item in items" :key="item.id">
+                    <v-layout row>
+                        <v-flex xs4>
+                            <v-card-media :src="item.src" height="175px"></v-card-media>
+                        </v-flex>
+                        <v-flex xs8>
+                            <v-card-text>
+                                <h2 class="text--primary">{{ item.title }}</h2>
+                                <p>{{ item.description }}</p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn class="info" :to="'/ads/'+item.id">Open</v-btn>
+                            </v-card-actions>
+                        </v-flex>
+                    </v-layout>
+                </v-card>
             </v-flex>
         </v-layout>
     </v-container>
@@ -10,7 +28,34 @@
 
 <script>
     export default {
-        name: "Ads"
+        name: "Ads",
+        data(){
+            return{
+                items: [
+                    {
+                        title: 'Lorem ipsum dolor sit amet',
+                        description: 'Lorem ipsum dolor sit amet',
+                        promo: false,
+                        src: require('./../assets/images/card-thumb-1.jpg'),//для подключения локальных изображений использовать require
+                        id: '1'
+                    },
+                    {
+                        title: 'rewe',
+                        description: 'dfgsdfg',
+                        promo: false,
+                        src: require('./../assets/images/card-thumb-2.jpg'),
+                        id: '2'
+                    },
+                    {
+                        title: 'sdasd',
+                        description: 'xzxczxc',
+                        promo: false,
+                        src: require('./../assets/images/card-thumb-3.jpg'),
+                        id: '3'
+                    }
+                ]
+            }
+        }
     }
 </script>
 

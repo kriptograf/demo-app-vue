@@ -51,6 +51,7 @@ export default {
       links: [
         { title: 'Home', icon: 'home', url: '/' },
         { title: 'Post Ads', icon: 'add', url: '/post' },
+        { title: 'My Ads', icon: 'toc', url: '/ads' },
         { title: 'Login', icon: 'lock', url: '/login' },
         { title: 'Register', icon: 'how_to_reg', url: '/register' }
       ]

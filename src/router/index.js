@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Ads from '@/components/Ads'
 import AdsCreate from '@/components/AdsCreate'
 import AdsDetail from '@/components/AdsDetail'
 import Login from '@/components/Auth/Login'
@@ -14,6 +15,11 @@ export default new Router({
             path: '',
             name: 'home',
             component: Home
+        },
+        {
+            path: '/ads',
+            name: 'ads',
+            component: Ads
         },
         {
             path: '/post',
