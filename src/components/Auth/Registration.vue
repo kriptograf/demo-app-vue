@@ -15,7 +15,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="onSubmit" :disabled="!valid">Submit</v-btn>
+                        <v-btn color="primary" @click="onSubmit" :loading="loading" :disabled="!valid || loading">Submit</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -47,15 +47,26 @@
                 ]
             }
         },
+        computed: {
+            loading(){
+                return this.$store.getters.loading;
+            }
+        },
         methods: {
             onSubmit(){
                 if (this.$refs.form.validate()) {
-                    /*const user = {
+                    const user = {
                         email: this.email,
                         password: this.password
-                    }*/
+                    }
 
-                    //console.log(user);
+                    this.$store.dispatch('registerUser', user)
+                        .then(() => {
+                            //После регистрации редирект на главную страницу
+                            this.$router.push('/');
+                        })
+                        // eslint-disable-next-line no-console
+                        .catch(err => console.log(err));//вывести в консоль ошибки
                 }
             }
         }
