@@ -5,7 +5,7 @@
                 <v-flex xs12>
                     <v-carousel>
                         <v-carousel-item
-                                v-for="(item,i) in items"
+                                v-for="(item,i) in promoItems"
                                 :key="i"
                                 :src="item.src"
                         >
@@ -49,31 +49,18 @@
 <script>
     export default {
         name: "Home",
-        data(){
-            return {
-                items: [
-                    {
-                        title: 'Lorem ipsum dolor sit amet',
-                        description: 'Lorem ipsum dolor sit amet',
-                        promo: false,
-                        src: require('./../assets/images/card-thumb-1.jpg'),//для подключения локальных изображений использовать require
-                        id: '1'
-                    },
-                    {
-                        title: 'rewe',
-                        description: 'dfgsdfg',
-                        promo: false,
-                        src: require('./../assets/images/card-thumb-2.jpg'),
-                        id: '2'
-                    },
-                    {
-                        title: 'sdasd',
-                        description: 'xzxczxc',
-                        promo: false,
-                        src: require('./../assets/images/card-thumb-3.jpg'),
-                        id: '3'
-                    }
-                ]
+        computed: {
+            /**
+             * Получаем данные из Store
+             * @returns {*}
+             */
+            promoItems(){
+                //Эти данные выводить в карусели
+                return this.$store.getters.promoItems;
+            },
+            items(){
+                //Эти данные выводить в гриде объявлений
+                return this.$store.getters.items;
             }
         }
     }

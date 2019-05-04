@@ -4,7 +4,7 @@
             <v-flex xs12 sm6 offset-sm3>
                 <h1 class="text--secondary mb-3">List ads</h1>
 
-                <v-card class="elevation-10 mb-3" v-for="item in items" :key="item.id">
+                <v-card class="elevation-10 mb-3" v-for="item in myItems" :key="item.id">
                     <v-layout row>
                         <v-flex xs4>
                             <v-card-media :src="item.src" height="175px"></v-card-media>
@@ -29,31 +29,10 @@
 <script>
     export default {
         name: "Ads",
-        data(){
-            return{
-                items: [
-                    {
-                        title: 'Lorem ipsum dolor sit amet',
-                        description: 'Lorem ipsum dolor sit amet',
-                        promo: false,
-                        src: require('./../assets/images/card-thumb-1.jpg'),//для подключения локальных изображений использовать require
-                        id: '1'
-                    },
-                    {
-                        title: 'rewe',
-                        description: 'dfgsdfg',
-                        promo: false,
-                        src: require('./../assets/images/card-thumb-2.jpg'),
-                        id: '2'
-                    },
-                    {
-                        title: 'sdasd',
-                        description: 'xzxczxc',
-                        promo: false,
-                        src: require('./../assets/images/card-thumb-3.jpg'),
-                        id: '3'
-                    }
-                ]
+        computed: {
+            myItems(){
+                //Возвращает только свои объявления из хранилища Store
+                return this.$store.getters.myItems;
             }
         }
     }
