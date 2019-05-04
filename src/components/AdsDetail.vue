@@ -3,10 +3,10 @@
         <v-layout row>
             <v-flex xs12>
                 <v-card>
-                    <v-card-media src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" height="300px"></v-card-media>
+                    <v-card-media :src="ad.src" height="300px"></v-card-media>
                     <v-card-text>
-                        <h1 class="text--primary">Lorem ipsum dolor sit amet.</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At cumque est et ex molestias, quis.</p>
+                        <h1 class="text--primary">{{ ad.title }}</h1>
+                        <p>{{ ad.description }}</p>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -21,7 +21,15 @@
 
 <script>
     export default {
-        name: "AdsDetail"
+        name: "AdsDetail",
+        props: ['id'],//в роутере установить параметр в true и здесь получать параметр id из url
+        computed: {
+            ad(){
+                const id = this.id;
+                //Получить из хранилища объявление по id
+                return this.$store.getters.itemById(id);
+            }
+        }
     }
 </script>
 

@@ -62,11 +62,14 @@
                     const ad = {
                         title: this.title,
                         description: this.description,
-                        promo: this.promo
+                        promo: this.promo,
+                        src: 'https://cdn.humoraf.ru/wp-content/uploads/2017/08/23-14.jpg'
                     };
 
-                    // eslint-disable-next-line no-console
-                    console.log(ad);
+                    /**
+                     * Задиспатчить метод cerateItem и передать в него объект ad
+                     */
+                    this.$store.dispatch('createItem', ad);
                 }
             }
         }

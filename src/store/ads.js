@@ -25,10 +25,18 @@ export default {
         ]
     },
     mutations: {
-
+        createItem(state, payload){
+            //добавить новый объект в хранилище
+            state.items.push(payload);
+        }
     },
     actions: {
-
+        createItem({commit}, payload){
+            //Временно установить случайный id, в дальнейшем получать его с сервера
+            payload.id = '123456';//Внимание! id принимает только строку
+            //коммит мутации
+            commit('createItem', payload);
+        }
     },
     getters: {
         items(state){
@@ -44,6 +52,12 @@ export default {
         myItems(state){
             //геттер заглушка, будет возвращать свои объявления для пользователя
             return state.items;
+        },
+        itemById(state){
+            //Найти в массиве item у которого id равен переданному параметру id
+            return adId => {
+                return state.items.find(item => item.id === adId);
+            }
         }
     }
 }

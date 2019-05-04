@@ -28,6 +28,7 @@ export default new Router({
         },
         {
             path: '/ads/:id',
+            props: true,
             name: 'ad',
             component: AdsDetail
         },
