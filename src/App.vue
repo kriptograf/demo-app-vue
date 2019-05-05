@@ -35,7 +35,27 @@
       </v-container>
     </v-content>
 
-    <v-footer app></v-footer>
+    <template v-if="error">
+      <v-snackbar
+              :multi-line="true"
+              :top="true"
+              :right="true"
+              :timeout="6000"
+              color="error"
+              @input="closeSnackbar"
+              :value="true"
+      >
+        {{ error }}
+        <v-btn
+                color="white"
+                flat
+                @click="closeSnackbar"
+        >
+          <v-icon>clear</v-icon>
+        </v-btn>
+      </v-snackbar>
+    </template>
+
   </v-app>
 </template>
 
@@ -55,6 +75,18 @@ export default {
         { title: 'Login', icon: 'lock', url: '/login' },
         { title: 'Register', icon: 'how_to_reg', url: '/register' }
       ]
+    }
+  },
+  computed: {
+    error(){
+      //получить ошибку из стора
+      return this.$store.getters.error;
+    }
+  },
+  methods: {
+    closeSnackbar(){
+      //Диспатчим метод который очищает ошибки из store
+      this.$store.dispatch('clearError');
     }
   }
 }

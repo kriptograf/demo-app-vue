@@ -3,7 +3,7 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import * as fb from 'firebase'
+import * as fb from 'firebase'//подключение firebase от google в качестве сервиса
 
 Vue.config.productionTip = false
 

@@ -14,7 +14,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="onSubmit" :disabled="!valid">Login</v-btn>
+                        <v-btn color="primary" @click="onSubmit" v-bind:loading="loading" :disabled="!valid || loading">Login</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -40,15 +40,25 @@
                 ]
             }
         },
+        computed: {
+            loading(){
+                return this.$store.getters.loading;
+            }
+        },
         methods: {
             onSubmit(){
                 if (this.$refs.form.validate()) {
-                    /*const user = {
+                    const user = {
                         email: this.email,
                         password: this.password
-                    }*/
+                    };
 
-                    //console.log(user);
+                    //Вызвать метод логин из store
+                    this.$store.dispatch('loginUser', user)
+                        .then(() => {
+                            this.$router.push('/');//Если логин прошел успешно, редирект на главную страницу
+                        })
+                        .catch(() => {});
                 }
             }
         }
