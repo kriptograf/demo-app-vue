@@ -10,7 +10,7 @@
                                 :src="item.src"
                         >
                             <div class="carousel-link">
-                                <v-btn :to="'/ads/'+item.id">{{ item.title }}</v-btn>
+                                <a v-bind:href="'/ads/'+item.id" class="promo-link">{{ item.title }}</a>
                             </div>
                         </v-carousel-item>
                     </v-carousel>
@@ -67,15 +67,22 @@
 </script>
 
 <style scoped>
-.carousel-link{
-    position: absolute;
-    top: 0;
-    background: rgba(0,0,0, .5);
-    padding: 20px;
-    width: 100%;
-    text-align: center;
-}
-.carousel-link > a{
-    color: #ffffff;
-}
+    .carousel-link{
+        position: absolute;
+        top: 0;
+        background: rgba(0,0,0, .5);
+        padding: 20px;
+        width: 100%;
+        text-align: center;
+    }
+    .carousel-link > a{
+        color: #ffffff;
+    }
+    .promo-link{
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
 </style>
