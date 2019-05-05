@@ -35,7 +35,7 @@
                 <v-layout row>
                     <v-flex xs12>
                         <v-spacer></v-spacer>
-                        <v-btn class="success" @click="createAd" :disabled="!valid">Create</v-btn>
+                        <v-btn class="success" @click="createAd" :loading="loading" :disabled="!valid || loading">Create</v-btn>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -55,10 +55,19 @@
                 valid: false
             }
         },
+        computed: {
+            /**
+             * Установить лоадер на кнопку Create
+             * @returns {*}
+             */
+            loading(){
+                return this.$store.getters.loading;
+            }
+        },
         methods:{
             createAd(){
                 if(this.$refs.form.validate()){
-                    //code
+                    //Заполнить свойства объекта данными
                     const ad = {
                         title: this.title,
                         description: this.description,
@@ -69,7 +78,11 @@
                     /**
                      * Задиспатчить метод cerateItem и передать в него объект ad
                      */
-                    this.$store.dispatch('createItem', ad);
+                    this.$store.dispatch('createItem', ad)
+                        .then(() => {
+                            this.$router.push('/ads');//если нет ошибок, редирект на главную страницу
+                        })
+                        .catch(() => {});
                 }
             }
         }

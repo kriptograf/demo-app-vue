@@ -1,3 +1,16 @@
+import * as fb from 'firebase'
+
+class Ad {
+    constructor(title, description, ownerId, src = '', promo = false, id = null){
+        this.title = title;
+        this.description = description;
+        this.ownerId = ownerId;
+        this.src = src;
+        this.promo = promo;
+        this.id = id;
+    }
+}
+
 export default {
     state: {
         items: [
@@ -31,11 +44,48 @@ export default {
         }
     },
     actions: {
-        createItem({commit}, payload){
-            //Временно установить случайный id, в дальнейшем получать его с сервера
-            payload.id = '123456';//Внимание! id принимает только строку
+        async createItem({commit, getters}, payload){
+
+            commit('clearError');
+            commit('setLoading', true);
+            
+            try {
+                /**
+                 * Проинициализировать объект данными
+                 * @type {Ad}
+                 */
+                const newItem = new Ad(
+                    payload.title,
+                    payload.description,
+                    getters.user.id,
+                    payload.src,
+                    payload.promo
+                );
+
+                /**
+                 * Сохранить данные в базу firebase
+                 */
+                const fbVal = await fb.database().ref('ads').push(newItem);
+
+                //остановить лоадер
+                commit('setLoading', false);
+
+                /**
+                 * Добавить новую запись в state
+                 */
+                commit('createItem', {
+                    ...newItem,//декомпозиция объекта
+                    id: fbVal.key //присвоить объявлению полученный id
+                });
+
+            } catch (error) {
+                commit('setError', error.message);
+                commit('setLoading', false);
+                throw error;
+            }
+            
             //коммит мутации
-            commit('createItem', payload);
+            //commit('createItem', payload);
         }
     },
     getters: {
