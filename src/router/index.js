@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import AuthGuard from './auth'
 import Home from '@/components/Home'
 import Ads from '@/components/Ads'
 import AdsCreate from '@/components/AdsCreate'
@@ -19,12 +20,14 @@ export default new Router({
         {
             path: '/ads',
             name: 'ads',
-            component: Ads
+            component: Ads,
+            beforeEnter: AuthGuard
         },
         {
             path: '/post',
             name: 'post',
-            component: AdsCreate
+            component: AdsCreate,
+            beforeEnter: AuthGuard
         },
         {
             path: '/ads/:id',
