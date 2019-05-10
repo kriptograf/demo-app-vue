@@ -13,15 +13,17 @@
                         <v-btn
                                 color="blue-grey"
                                 class="white--text"
+                                @click="triggerUpload"
                         >
                             Upload
                             <v-icon right dark>cloud_upload</v-icon>
                         </v-btn>
+                        <input ref="fileInput" type="file" style="display: none;" accept="image/*" @change="selectFile">
                     </v-flex>
                 </v-layout>
                 <v-layout row>
                     <v-flex xs12>
-                        <img src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg" alt="" width="150">
+                        <img :src="src" v-if="src" alt="" width="150">
                     </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -35,7 +37,7 @@
                 <v-layout row>
                     <v-flex xs12>
                         <v-spacer></v-spacer>
-                        <v-btn class="success" @click="createAd" :loading="loading" :disabled="!valid || loading">Create</v-btn>
+                        <v-btn class="success" @click="createAd" :loading="loading" :disabled="!valid || !image || loading">Create</v-btn>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -52,7 +54,9 @@
                 title: '',
                 description: '',
                 promo: false,
-                valid: false
+                valid: false,
+                image: null,
+                src: ''
             }
         },
         computed: {
@@ -66,13 +70,13 @@
         },
         methods:{
             createAd(){
-                if(this.$refs.form.validate()){
+                if(this.$refs.form.validate() && this.image){
                     //Заполнить свойства объекта данными
                     const ad = {
                         title: this.title,
                         description: this.description,
                         promo: this.promo,
-                        src: 'https://cdn.humoraf.ru/wp-content/uploads/2017/08/23-14.jpg'
+                        image: this.image
                     };
 
                     /**
@@ -84,6 +88,19 @@
                         })
                         .catch(() => {});
                 }
+            },
+            triggerUpload(){
+                //триггер клика на скрытый input file
+                this.$refs.fileInput.click();
+            },
+            selectFile(event){
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+                this.image = file;
             }
         }
     }

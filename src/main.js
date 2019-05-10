@@ -4,8 +4,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import * as fb from 'firebase'//подключение firebase от google в качестве сервиса
+import dbCofig from './config/db'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   render: h => h(App),
@@ -14,13 +15,13 @@ new Vue({
   created(){
     // Your web app's Firebase configuration
     var firebaseConfig = {
-      apiKey: "AIzaSyBAma6Az4_e0aXYZIKRXNk7vJfz87XDEtc",
-      authDomain: "learning-vue-78899.firebaseapp.com",
-      databaseURL: "https://learning-vue-78899.firebaseio.com",
-      projectId: "learning-vue-78899",
-      storageBucket: "learning-vue-78899.appspot.com",
-      messagingSenderId: "776143866532",
-      appId: "1:776143866532:web:1e3805fbc5699d98"
+      apiKey: dbCofig.apiKey,
+      authDomain: dbCofig.authDomain,
+      databaseURL: dbCofig.databaseURL,
+      projectId: dbCofig.projectId,
+      storageBucket: dbCofig.storageBucket,
+      messagingSenderId: dbCofig.messagingSenderId,
+      appId: dbCofig.appId
     };
 
     fb.initializeApp(firebaseConfig);

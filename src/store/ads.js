@@ -32,6 +32,8 @@ export default {
 
             commit('clearError');
             commit('setLoading', true);
+
+            const image = payload.image;
             
             try {
                 /**
@@ -42,7 +44,7 @@ export default {
                     payload.title,
                     payload.description,
                     getters.user.id,
-                    payload.src,
+                    '',
                     payload.promo
                 );
 
@@ -50,6 +52,25 @@ export default {
                  * Сохранить данные в базу firebase
                  */
                 const fbVal = await fb.database().ref('ads').push(newItem);
+
+                const imageExt = image.name.slice(image.name.lastIndexOf('.'));
+
+                /**
+                 * Сохранить изображение на сервере и вернуть его src- полнй путь к изображению
+                 * @type {any}
+                 */
+                const fileData = await fb.storage().ref(`ads/${fbVal.key}${imageExt}`).put(image)
+                    .then(uploadTaskSnapshot => {
+                        return uploadTaskSnapshot.ref.getDownloadURL();
+                    });
+
+                /**
+                 * После получения пути к изображению, обновить его в базе данных
+                 * Не очень логично получается, два запроса к бд o_O
+                 */
+                await fb.database().ref('ads').child(fbVal.key).update({
+                    src: fileData
+                });
 
                 //остановить лоадер
                 commit('setLoading', false);
@@ -59,7 +80,8 @@ export default {
                  */
                 commit('createItem', {
                     ...newItem,//декомпозиция объекта
-                    id: fbVal.key //присвоить объявлению полученный id
+                    id: fbVal.key, //присвоить объявлению полученный id
+                    src: fileData //Установить путь к изображению
                 });
 
             } catch (error) {
