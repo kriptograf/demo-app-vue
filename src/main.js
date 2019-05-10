@@ -30,5 +30,10 @@ new Vue({
             this.$store.dispatch('autoUpdateLogin', user);
         }
     });
+
+    /**
+     * Вызвать метод хранилища для получения всех объявлений из бд
+     */
+    this.$store.dispatch('fetchAds');
   }
 }).$mount('#app')

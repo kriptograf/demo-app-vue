@@ -14,33 +14,17 @@ class Ad {
 export default {
     state: {
         items: [
-            {
-                title: 'Lorem ipsum dolor sit amet',
-                description: 'Lorem ipsum dolor sit amet',
-                promo: false,
-                src: require('./../assets/images/card-thumb-1.jpg'),//для подключения локальных изображений использовать require
-                id: '1'
-            },
-            {
-                title: 'rewe',
-                description: 'dfgsdfg',
-                promo: true,
-                src: require('./../assets/images/card-thumb-2.jpg'),
-                id: '2'
-            },
-            {
-                title: 'sdasd',
-                description: 'xzxczxc',
-                promo: true,
-                src: require('./../assets/images/card-thumb-3.jpg'),
-                id: '3'
-            }
+
         ]
     },
     mutations: {
         createItem(state, payload){
             //добавить новый объект в хранилище
             state.items.push(payload);
+        },
+        loadAds(state, payload){
+            //присваиваем массиву items, сформированный payload
+            state.items = payload;
         }
     },
     actions: {
@@ -86,6 +70,49 @@ export default {
             
             //коммит мутации
             //commit('createItem', payload);
+        },
+        async fetchAds({commit}){
+            commit('clearError');
+            commit('setLoading', true);
+
+            const resultAds = [];
+
+            try {
+                /**
+                 * Обратиться к базе данных и запросить все данные из таблицы ads
+                 */
+                const fbVal = await fb.database().ref('ads').once('value');
+                /**
+                 * Вызвать специальный метод val у объекта который возвращает firebase
+                 * @type {any}
+                 */
+                const ads = fbVal.val();
+
+                /**
+                 * Перебрать все объявления и заполнить результирующий массив, данными
+                 */
+                Object.keys(ads).forEach(key => {
+                    const ad = ads[key];
+                    resultAds.push(new Ad(
+                        ad.title,
+                        ad.description,
+                        ad.ownerId,
+                        ad.src,
+                        ad.promo,
+                        key
+                    ));
+                });
+
+                /**
+                 * Вызвать метод loadAds и передать в него сформированный массив
+                 */
+                commit('loadAds', resultAds);
+                commit('setLoading', false);
+            } catch (error) {
+                commit('setError', error.message);
+                commit('setLoading', false);
+                throw error;
+            }
         }
     },
     getters: {
